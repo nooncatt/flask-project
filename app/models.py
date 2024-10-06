@@ -1,8 +1,8 @@
 # models.py
 import re
 
+
 class User:
-    # todo: user class
     def __init__(self, id, first_name, last_name, phone, email, score=0):
         self.id = id
         self.first_name = first_name
@@ -13,7 +13,7 @@ class User:
 
     @staticmethod
     def is_valid_email(email):
-        if re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+        if re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
             return True
         else:
             return False
@@ -25,3 +25,19 @@ class User:
         else:
             return False
 
+
+class Expression:
+    def __init__(self, id, operation, *values):
+        self.id = id
+        self.operation = operation
+        self.values = values
+        self.answer = self.__evaluate()
+
+    def __evaluate(self):
+        return eval(self.to_string())
+
+    def to_string(self):
+        expr_str = str(self.values[0]) + "".join(
+            f" {self.operation} {value}" for value in self.values[1:]
+        )
+        return expr_str
